@@ -1,0 +1,309 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	CTN - G. Utilisateurs
+{% endblock %}
+
+{% block body %}
+	<nav class="navbar shadow-lg navbar-expand-lg navbar-dark bg-dark justify-content-between fixed-top">
+		<img src="{{ asset('img/logo.png') }}" alt="Logo" style="max-width: 200px;"/>
+
+		<a class="navbar-brand" href="#">Gestion des Utilisateurs</a>
+		<form class="form-inline">
+			<a href="{{ path('app_utilisageur_add') }}" class="btn btn-danger my-2 my-sm-0" aria-current="page">
+		🧑 Ajouter Utilisateur
+			</a>
+			-
+			<button class="btn btn-light my-2 my-sm-0" id="currentDateTime" type="button"></button>
+			-
+			<button class="btn btn-light my-2 my-sm-0"  type="button">⚓
+				{{ loginnavire }}</button>
+			-
+			<div class="dropdownx">
+												<button class="btn btn-light my-2 my-sm-0" type="button">🧑‍💼
+				{{ loginnom }}</button>
+			-
+											<div class="dropdown-contentx">
+												<a href="{{ path('app_logout') }}" class="btn btn-outline-danger my-2 my-sm-0 btn-sm" type="button">⛔ Déconnecter
+												</a>
+											</div>
+										</div>
+		
+		</form>
+	</nav>
+
+	<div class="container-fluid">
+		<div class="row">
+			<nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark bg-opacity-75 sidebar">
+				<div class="position-sticky">
+					<ul class="nav nav-pills flex-column mb-auto">
+					<br><br>
+						<li class="nav-item">
+							<div class="text-white container mt-5 bg-secondary text-center border border-5 border-secondary rounded">
+
+								<form action={{url('app_utilisageur_f')}}>
+									<div class="form-group">
+										<label for="nom">Navigant</label>
+										<input type="text" class="form-control form-control-sm" id="nom" name="navigant" value="{{ filn }}" placeholder="Prénom et Nom">
+									</div>
+									<div class="form-group">
+										<label for="email">Email</label>
+										<input type="text" class="form-control form-control-sm" id="email" name="email" value="{{ file }}" placeholder="example@example.exa">
+									</div>
+									<div class="row">
+										<div class="col">
+											<div class="form-group">
+												<label for="sexe">Sexe</label>
+												<select class="form-control form-control-sm" name="sexe" id="sexe">
+													<option>Tout</option>
+													<option value="M" {% if fils == 'M' %} selected {% endif %}>Masculine</option>
+													<option value="F" {% if fils == 'F' %} selected {% endif %}>Féminine</option>
+												</select>
+											</div>
+										</div>
+										<div class="col">
+											<div class="form-group">
+												<label for="fonction">Fonction</label>
+												<select class="form-control form-control-sm" id="fonction" name="fonction">
+													<option>Tout</option>
+													<option value="Standard" {% if filf == 'Standard' %} selected {% endif %}>Standard</option>
+													<option value="Gestionnaire" {% if filf == 'Gestionnaire' %} selected {% endif %}>Gestionnaire</option>
+													<option value="Commandant" {% if filf == 'Commandant' %} selected {% endif %}>Commandant</option>
+													<option value="G. Utilisateur" {% if filf == 'G. Utilisateur' %} selected {% endif %}>G. Utilisateur</option>
+													<option value="Capitaine" {% if filf == 'Capitaine' %} selected {% endif %}>Capitaine</option>
+													<option value="Garçon" {% if filf == 'Garçon' %} selected {% endif %}>Garçon</option>
+													<option value="Mecanician" {% if filf == 'Mecanician' %} selected {% endif %}>Mecanician</option>
+													<option value="Medicain" {% if filf == 'Medicain' %} selected {% endif %}>Medicain</option>
+
+												</select>
+											</div>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col">
+											<div class="form-group">
+												<label for="d">Disponible</label>
+												<select class="form-control form-control-sm" name="d" id="d">
+													<option>Tout</option>
+													<option value="Disponible" {% if fild == 'Disponible' %} selected {% endif %}>Disponible</option>
+													<option value="Indisponible" {% if fild == 'Indisponible' %} selected {% endif %}>Indisponible</option>
+												</select>
+											</div>
+										</div>
+										<div class="col">
+											<div class="form-group">
+												<label for="tel">Tél</label>
+												<input type="text" class="form-control form-control-sm" id="tel" name="tel" value="{{ filt }}" placeholder="01234567">
+											</div>
+										</div>
+									</div>
+
+
+									<div class="row">
+										<div class="col">
+											<div class="form-group">
+												<button type="submit" name="a" value="a" class="btn btn-sm btn-danger mt-3">Filtrer</button>
+											</div>
+										</div>
+										<div class="col">
+											<div class="form-group">
+
+
+												<button type="submit" name="a" value="b" class="btn btn-sm btn-danger mt-3">Effacer</button>
+
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</li>
+
+
+						<li class="">
+							<div class="text-white container mt-3 bg-secondary text-center border border-5 border-secondary rounded">
+								Générer
+								<form>
+
+									<a href="{{ path('app_utilisageur_mpdf', { 'n': filn | default(' '), 'f': filf, 't': filt | default(' ') , 'd': fild, 's': fils, 'e': file | default(' ') }) }}" class="btn btn-danger btn-sm" type="button">PDF</a>
+
+
+									<a href="{{ path('app_utilisageur_mcsv', { 'n': filn | default(' '), 'f': filf, 't': filt | default(' ') , 'd': fild, 's': fils, 'e': file | default(' ') }) }}" class="btn btn-danger btn-sm" type="button">CSV</a>
+
+
+								</form>
+							</div>
+						</li>
+
+						<hr style="color:white;">
+						<li class="nav-item">
+							<a href="{{ path('app_utilisageur') }}" class="nav-link bg-danger text-white" aria-current="page">
+								<svg class="bi me-2" width="0" height="16">
+									<use xlink:href="#home"></use>
+								</svg>🧑‍🧒‍🧒 Personnels
+							</a>
+						</li>
+					</ul>
+				</div>
+			</nav>
+
+			<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+				<br>
+				<br>
+				<br>
+				<div class="table-container">
+					<table class="table table-striped">
+						<thead class="thead-dark">
+							<tr>
+								<th scope="col">Mat</th>
+								<th scope="col">Prénom</th>
+								<th scope="col">Nom</th>
+								<th scope="col">Date Nais.</th>
+								<th scope="col">Lieu Nais.</th>
+								<th scope="col">Sexe</th>
+								<th scope="col">Tel.</th>
+								<th scope="col">Email</th>
+								<th scope="col">Fonction</th>
+								<th scope="col">Navire</th>
+								<th scope="col">Ac</th>
+								<th scope="col">Disponible</th>
+							</tr>
+						</thead>
+						<tbody>
+
+
+							{% for i in list %}
+								<tr>
+									<th scope="row">{{ i.getId() }}</th>
+									<td>{{ i.getPrenom() }}</td>
+									<td>{{ i.getNom() }}</td>
+									<td>{{ i.getDaten()|date('Y-m-d') }}</td>
+									<td>{{ i.getLieun() }}</td>
+									<td>{{ i.getSexe() }}</td>
+									<td>{{ i.getTel() }}</td>
+									<td>{{ i.getEmail() }}</td>
+									<td>{{ i.getFonction() }}</td>
+									
+									<td>{{ i.getNavire() }}</td>
+
+									<td>
+										<div class="dropdown">
+											🔴
+											<div class="dropdown-content">
+												<a href="{{ path('app_utilisageur_del',{'mat':i.getId()}) }}" class="btn btn-outline-danger my-2 my-sm-0 btn-sm" type="button">🗑️ Supprimer
+												</a>
+													<a href="{{ path('app_utilisageur_mod',{'mat':i.getId()}) }}" class="btn btn-outline-danger my-2 my-sm-0 btn-sm" type="button">✏️ Modifier
+												</a>
+											</div>
+										</div>
+									</td>
+
+													{% set targetDate = i.getDatecon()|date_modify('+' ~ i.jourc ~ ' days') %}
+
+									{% if targetDate|date('Y-m-d') > "now"|date('Y-m-d') %}
+										<td class="bg-danger text-white">{{ targetDate|date('Y-m-d') }}</td>
+									{% else %}
+										<td class="bg-success text-white">{{ targetDate|date('Y-m-d') }}</td>
+									{% endif %}
+
+
+								</tr>
+							{% endfor %}
+
+							
+
+
+						</tbody>
+					</table>
+				</div>
+			</main>
+		</div>
+	</div>
+	<style>
+		.table-container {
+			max-height: calc(100vh - 80px); /* Adjust the maximum height as needed */
+			overflow-y: auto; /* Add vertical scroll for the content */
+		}
+
+		.table thead {
+			position: sticky;
+			top: 0;
+			z-index: 1; /* Ensure the header is above the table content */
+		}
+
+		#sidebar {
+			min-height: 100vh; /* Set the sidebar's minimum height to 100% of the viewport height */
+			position: fixed;
+		}
+		body {
+			background-image: url({{ asset('img/background.png') }}); /* Replace with the actual path to your hiba image */
+			background-size: cover; /* This will make the image cover the entire background */
+			background-repeat: no-repeat; /* Prevent the image from repeating */
+		}
+		table tr td,
+		table tr th {
+			background-color: rgba(255, 255, 255, 0.6) !important;
+		}
+
+		.dropdown {
+			position: relative;
+			display: inline-block;
+		}
+
+		.dropdown-content {
+			display: none;
+			position: absolute;
+			background-color: #f9f9f9;
+			
+			box-shadow: 0 8px 16px 0 rgba(10, 0, 0, 0.2);
+			z-index: 1;
+		}
+
+		.dropdown:hover .dropdown-content {
+    display: flex; /* Use flexbox to make them appear in the same row */
+    flex-direction: row; /* Arrange them horizontally */
+    top: -10px; /* Position below the dropdown button */
+    left: -100px; /* Align with the left edge of the dropdown button */
+}
+	.dropdownx {
+		position: relative;
+		display: inline-block;
+	}
+
+	.dropdown-contentx {
+		display: none;
+		position: absolute;
+		background-color: #f9f9f9;
+
+		box-shadow: 0 8px 16px 0 rgba(10, 0, 0, 0.2);
+		z-index: 1;
+	}
+			.dropdownx:hover .dropdown-contentx {
+			display: flex; /* Use flexbox to make them appear in the same row */
+			flex-direction: column; /* Arrange them horizontally */
+			/* Position below the dropdown button */
+			/* Align with the left edge of the dropdown button */
+		}
+
+	</style>
+
+	<script>
+		function updateCurrentDateTime() {
+var now = new Date()
+var year = now.getFullYear()
+var month = String(now.getMonth() + 1).padStart(2, '0')
+var day = String(now.getDate()).padStart(2, '0')
+var hour = String(now.getHours()).padStart(2, '0')
+var minute = String(now.getMinutes()).padStart(2, '0')
+var second = String(now.getSeconds()).padStart(2, '0')
+
+var currentDateTime = '🕐 ' + year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second
+
+document.getElementById('currentDateTime').textContent = currentDateTime
+}
+
+// Update the current date and time immediately and then update it every minute
+updateCurrentDateTime()
+setInterval(updateCurrentDateTime, 1000) // Update every 1 minute (60000 milliseconds)
+	</script>
+{% endblock %}

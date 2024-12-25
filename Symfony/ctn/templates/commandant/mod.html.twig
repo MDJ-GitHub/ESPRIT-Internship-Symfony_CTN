@@ -1,0 +1,230 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	CTN - Commandant
+{% endblock %}
+
+{% block body %}
+	<nav class="navbar shadow-lg navbar-expand-lg navbar-dark bg-dark justify-content-between fixed-top">
+		<img src="{{ asset('img/logo.png') }}" alt="Logo" style="max-width: 200px;"/>
+
+		<a class="navbar-brand" href="#">Commandment des Mouvements</a>
+		<form class="form-inline">
+			<button class="btn btn-light my-2 my-sm-0" id="currentDateTime" type="button"></button>
+			-
+				<button class="btn btn-light my-2 my-sm-0"  type="button">⚓
+				{{ loginnavire }}</button>
+			-
+			<button class="btn btn-light my-2 my-sm-0" type="button">🧑‍💼
+				{{ loginnom }}</button>
+			-
+		</form>
+	</nav>
+
+	<div class="container-fluid">
+		<div class="row">
+			<nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark bg-opacity-75 sidebar">
+				<div class="position-sticky">
+					<br>
+					<br>
+					<br>
+					<ul class="nav nav-pills flex-column mb-auto">
+						<br/>
+						<li class="nav-item">
+							<a href="{{ path('app_commandant') }}" class="nav-link text-white" aria-current="page">
+								<svg class="bi me-2" width="0" height="16">
+									<use xlink:href="#home"></use>
+								</svg>🧑‍🧒‍🧒 Personnels
+							</a>
+						</li>
+						<li>
+							<a href="{{ path('app_commandant_mov') }}" class="nav-link bg-danger text-white">
+								<svg class="bi me-2" width="0" height="16">
+									<use xlink:href="#speedometer2"></use>
+								</svg>⛵ Mouvements
+							</a>
+						</li>
+					</ul>
+				</div>
+			</nav>
+
+			<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+	<br>
+
+					<br>
+				<div class="container mt-5">
+					<h2>Modifier un Mouvement de</h2>
+					<form action={{url('app_commandant_moding',{'mat':movmat} )}}>
+
+
+						<div class="border border-danger bg-danger text-white rounded border-5">
+							<div class="row">
+								<div class="col">
+									<h5>
+										Matricule Mv :</h5>
+									<button class="btn btn-light my-2 my-sm-0" type="button">{{ movmat }}</button>
+
+								</div>
+								<div class="col">
+									<h5>
+										Matricule :</h5>
+									<button class="btn btn-light my-2 my-sm-0" type="button">{{ selectmat }}</button>
+
+								</div>
+								<div class="col">
+									<h5>
+										Prénom :</h5>
+									<button class="btn btn-light my-2 my-sm-0" type="button">{{ selectpren }}</button>
+
+								</div>
+								<div class="col">
+									<h5>
+										Nom :
+									</h5>
+									<button class="btn btn-light my-2 my-sm-0" type="button">{{ selectnom }}</button>
+
+								</div>
+								<div class="col">
+									<h5>
+										Fonction :
+									</h5>
+									<button class="btn btn-light my-2 my-sm-0" type="button">{{ selectfn }}</button>
+
+								</div>
+								<div class="col">
+									<h5>
+										Navire :
+									</h5>
+									<button class="btn btn-light my-2 my-sm-0" type="button">{{ selectnavire }}</button>
+
+								</div>
+							</div>
+						</div>
+
+						<br>
+
+						<div class="form-group">
+							<div class="row">
+								<div class="col">
+									<label for="dropdown1">Port Departure</label>
+									<select class="form-control" name="portdep" id="dropdown1">
+										<option {% if initportdep == 'Bizerte' %} selected {% endif %}>Bizerte</option>
+										<option {% if initportdep == 'Rades' %} selected {% endif %}>Rades</option>
+										<option {% if initportdep == 'Sousse' %} selected {% endif %}>Sousse</option>
+										<option {% if initportdep == 'Sfax' %} selected {% endif %}>Sfax</option>
+										<option {% if initportdep == 'Gabes' %} selected {% endif %}>Gabes</option>
+										<option {% if initportdep == 'Goulette' %} selected {% endif %}>Goulette</option>
+										<option {% if initportdep == 'Zarzis' %} selected {% endif %}>Zarzis</option>
+									</select>
+								</div>
+								<div class="col">
+									<label for="dropdown2">Port Destination</label>
+									<select class="form-control" name="portdes" id="dropdown2">
+										<option {% if initportdep == 'Bizerte' %} selected {% endif %}>Bizerte</option>
+										<option {% if initportdes == 'Rades' %} selected {% endif %}>Rades</option>
+										<option {% if initportdes == 'Sousse' %} selected {% endif %}>Sousse</option>
+										<option {% if initportdes == 'Sfax' %} selected {% endif %}>Sfax</option>
+										<option {% if initportdes == 'Gabes' %} selected {% endif %}>Gabes</option>
+										<option {% if initportdes == 'Goulette' %} selected {% endif %}>Goulette</option>
+										<option {% if initportdes == 'Zarzis' %} selected {% endif %}>Zarzis</option>
+									</select>
+								</div>
+							</div>
+
+						</div>
+						<div class="form-group">
+							<label for="dateInput">Date d'Embarquement</label>
+							<input type="date" class="form-control" value="{{ initdateemb|date('Y-m-d') }}" name="dateemb" id="dateInput">
+						</div>
+						<div class="form-group">
+							<label for="dateInput">Date d'Debarquement Attendu</label>
+							{% if initdatedeb is null %}
+								<input type="date" class="form-control" name="datedeb" id="dateInput">
+							{% else %}
+								<input type="date" class="form-control" value="{{ initdatedeb|date('Y-m-d') }}" name="datedeb" id="dateInput">
+							{% endif %}
+
+						</div>
+						<div class="form-group">
+							<label for="dropdown3">Situation</label>
+							<select class="form-control" name="situation" id="dropdown3">
+								<option {% if initsituation == 'Titulaire' %} selected {% endif %}>Titulaire</option>
+								<option {% if initsituation == 'Contractuel' %} selected {% endif %}>Contractuel</option>
+								<option {% if initsituation == 'Occasionnel' %} selected {% endif %}>Occasionnel</option>
+							</select>
+						</div>
+						<br>
+						<button type="submit" class="btn btn-danger">Modifier</button>
+					</form>
+				</div>
+			</main>
+		</div>
+	</div>
+	<style>
+		.table-container {
+			max-height: calc(100vh - 80px); /* Adjust the maximum height as needed */
+			overflow-y: auto; /* Add vertical scroll for the content */
+		}
+
+		.table thead {
+			position: sticky;
+			top: 0;
+			z-index: 1; /* Ensure the header is above the table content */
+		}
+
+		#sidebar {
+			min-height: 100vh; /* Set the sidebar's minimum height to 100% of the viewport height */
+			position: fixed;
+		}
+		body {
+			background-image: url({{ asset('img/background.png') }}); /* Replace with the actual path to your hiba image */
+			background-size: cover; /* This will make the image cover the entire background */
+			background-repeat: no-repeat; /* Prevent the image from repeating */
+		}
+		table tr td,
+		table tr th {
+			background-color: rgba(255, 255, 255, 0.6) !important;
+		}
+
+		.dropdown {
+			position: relative;
+			display: inline-block;
+		}
+
+		.dropdown-content {
+			display: none;
+			position: absolute;
+			background-color: #f9f9f9;
+			
+			box-shadow: 0 8px 16px 0 rgba(10, 0, 0, 0.2);
+			z-index: 1;
+		}
+
+		.dropdown:hover .dropdown-content {
+    display: flex; /* Use flexbox to make them appear in the same row */
+    flex-direction: row; /* Arrange them horizontally */
+    top: -10px; /* Position below the dropdown button */
+    left: -100px; /* Align with the left edge of the dropdown button */
+}
+	</style>
+
+	<script>
+		function updateCurrentDateTime() {
+var now = new Date()
+var year = now.getFullYear()
+var month = String(now.getMonth() + 1).padStart(2, '0')
+var day = String(now.getDate()).padStart(2, '0')
+var hour = String(now.getHours()).padStart(2, '0')
+var minute = String(now.getMinutes()).padStart(2, '0')
+var second = String(now.getSeconds()).padStart(2, '0')
+
+var currentDateTime = '🕐 ' + year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second
+
+document.getElementById('currentDateTime').textContent = currentDateTime
+}
+
+// Update the current date and time immediately and then update it every minute
+updateCurrentDateTime()
+setInterval(updateCurrentDateTime, 1000) // Update every 1 minute (60000 milliseconds)
+	</script>
+{% endblock %}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        {% block stylesheets %}
+        
+        	<link rel="stylesheet" href="{{ asset('/build/app.css') }}"/>
+
+        {% endblock %}
+
+        <style>
+
+		.table thead {
+			position: sticky;
+			top: 0;
+			z-index: 1; /* Ensure the header is above the table content */
+		}
+
+		#sidebar {
+			min-height: 100vh; /* Set the sidebar's minimum height to 100% of the viewport height */
+			position: fixed;
+		}
+		body {
+			background-image: url({{ asset('img/background.png') }}); /* Replace with the actual path to your hiba image */
+			background-size: cover; /* This will make the image cover the entire background */
+			background-repeat: no-repeat; /* Prevent the image from repeating */
+		}
+		table tr td,
+		table tr th {
+			background-color: rgba(255, 255, 255, 0.6) !important;
+		}
+
+		.dropdown {
+			position: relative;
+			display: inline-block;
+		}
+
+		.dropdown-content {
+			display: none;
+			position: absolute;
+			background-color: #f9f9f9;
+
+			box-shadow: 0 8px 16px 0 rgba(10, 0, 0, 0.2);
+			z-index: 1;
+		}
+
+		.dropdown:hover .dropdown-content {
+			display: block;
+		}
+	</style>
+
+        {% block javascripts %}
+         <script src="{{ asset('build/app.js') }}"></script>
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+    </body>
+</html>

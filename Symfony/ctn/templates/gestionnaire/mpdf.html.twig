@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>CTN - Gestionnaire</title>
+	</head>
+	<body>
+		<h1>List des Personnel</h1>
+		<table border="1">
+			<thead>
+				<tr>
+					<th>Mat</th>
+					<th>Prenom</th>
+					<th>Nom</th>
+					<th>Date Nais.</th>
+					<th>Lieu Nais.</th>
+					<th>Sexe</th>
+					<th>Tel.</th>
+					<th style="width: 10px;">Email</th>
+					<th>Fonction</th>
+					<th>Navire</th>
+					<th>Disponible</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				{% for item in data %}
+					<tr>
+						<td>{{ item.getId() }}</td>
+						<td>{{ item.getPrenom() }}</td>
+						<td>{{ item.getNom() }}</td>
+						<td>{{ item.getDaten()|date('Y-m-d') }}</td>
+						<td>{{ item.getLieun() }}</td>
+						<td>{{ item.getSexe() }}</td>
+						<td>{{ item.getTel() }}</td>
+						<td style="width: 1px;">{{ item.getEmail() }}</td>
+						<td>{{ item.getFonction() }}</td>
+						<td>{{ item.getNavire() }}</td>
+						<td>
+							{% if item.getDatecon() is null %}
+								---
+							{% else %}
+								{{ item.getDatecon()|date('Y-m-d') }}
+							{% endif %}
+
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</body>
+</html>

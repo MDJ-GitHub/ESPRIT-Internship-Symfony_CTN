@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>CTN - Gestionnaire</title>
+	</head>
+	<body>
+		<h1>List des Evaluations</h1>
+		<table border="1">
+			<thead>
+				<tr>
+				    <th>Mat</th>
+					<th>Mat Mv</th>
+					<th>Navigant</th>
+					<th>Date Emb. Atte/Conf</th>
+					<th>Date Deb. Atte/Conf</th>
+					<th>Port Dep.</th>
+					<th>Port Des.</th>
+					<th>Situation</th>
+					<th>Fonction</th>
+					<th>Note</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for item in data %}
+					<tr>
+					<td>{{ item.getEvaluation().getId() }}</td>
+						<td>{{ item.getId() }}</td>
+						<td>{{ item.getMatriculep().getPrenom() }}
+							{{ item.getMatriculep().getNom() }}</td>
+						<td>{{ item.getDateemb()|date('Y-m-d') }}
+							<hr style="margin: 5px 0;
+																		        padding: 0;    ">
+							{% if item.getDateembc() is null %}
+								---
+							{% else %}
+								{{ item.getDateembc()|date('Y-m-d') }}
+							{% endif %}
+
+						</td>
+						<td>
+							{% if item.getDatedeb() is null %}
+								---
+							{% else %}
+								{{ item.getDatedeb()|date('Y-m-d') }}
+							{% endif %}
+							<hr style="margin: 5px 0;
+																		        padding: 0;    ">
+							{% if item.getDatedebc() is null %}
+								---
+							{% else %}
+								{{ item.getDatedebc()|date('Y-m-d') }}
+							{% endif %}
+						</td>
+						<td>{{ item.portdep }}</td>
+						<td>{{ item.portdes }}</td>
+						<td>{{ item.situation }}</td>
+						<td>{{ item.getMatriculep().getFonction() }}</td>
+						<td>{{ item.getEvaluation().getNote() }}</td>
+					</tr>
+
+					
+				<tr>
+					<td colspan="10">{{item.getEvaluation().getCommentaire()}}</td>
+
+				</tr>
+
+				{% endfor %}
+			</tbody>
+		</table>
+	</body>
+</html>

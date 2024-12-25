@@ -1,0 +1,143 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	CTN
+{% endblock %}
+
+{% block body %}
+	<nav class="shadow-lg navbar navbar-expand-lg navbar-dark bg-dark justify-content-between fixed-top">
+		<img src="{{ asset('img/logo.png') }}" alt="Logo" style="max-width: 200px;"/>
+
+		<a class="navbar-brand" href="#">Bienvenue</a>
+		<form class="form-inline">
+			<button class="btn btn-light my-2 my-sm-0" id="currentDateTime" type="button"></button>
+			-
+			<button class="btn btn-danger my-2 my-sm-0" type="button">Aide</button>
+			-
+		</form>
+	</nav>
+
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+
+
+	<div class="container mt-5">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="card shadow-lg bg-dark text-white">
+					<div class="card-body">
+						<form action="{{ path('app_auth') }}" method="post">
+							<h5>
+								Veuillez insérer vos informations d'identification ici pour vous connecter à votre profil de navigation.</h5>
+							<hr>
+							<div class="form-group">
+								<label for="textbox1">Tel. ou Email</label>
+								<input type="text" class="form-control" id="textbox1" name="username" placeholder="1234567 ou example@exammple.exa">
+							</div>
+							<br>
+							<div class="form-group">
+								<label for="textbox2">Mot de Passe</label>
+								<input type="password" class="form-control" id="textbox2" name="password">
+							</div>
+							<br>
+							<div class="form-check">
+								<input type="checkbox" class="form-check-input" id="exampleCheck">
+								<label class="form-check-label" for="exampleCheck">Rester Connecté</label>
+							</div>
+							<hr>
+							<div class="row mt-3">
+								<div class="col">
+                
+									<button type="submit" value="a" name="action" class="btn btn-danger btn-block">Connecter</button>
+							
+                                	{% if error != '' %}
+									&nbsp;  <button class="btn btn-warning">{{error}}</button>
+									{% endif %}
+									<br>
+									<button type="submit" value="b" class="btn mt-3 btn-sm btn-secondary btn-block">Mot de Passe Oublié</button>
+								</div>
+
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<img src="{{ asset('img/mlogo.png') }}" alt="Logo" style="max-width: 550px;"/>
+
+			</div>
+		</div>
+	</div>
+
+
+	<style>
+		.table-container {
+			max-height: calc(100vh - 80px); /* Adjust the maximum height as needed */
+			overflow-y: auto; /* Add vertical scroll for the content */
+		}
+
+		.table thead {
+			position: sticky;
+			top: 0;
+			z-index: 1; /* Ensure the header is above the table content */
+		}
+
+		#sidebar {
+			min-height: 100vh; /* Set the sidebar's minimum height to 100% of the viewport height */
+			position: fixed;
+		}
+		body {
+			background-image: url({{ asset('img/mebackground.jpg') }}); /* Replace with the actual path to your hiba image */
+			background-size: cover; /* This will make the image cover the entire background */
+			background-repeat: no-repeat; /* Prevent the image from repeating */
+		}
+		table tr td,
+		table tr th {
+			background-color: rgba(255, 255, 255, 0.6) !important;
+		}
+
+		.dropdown {
+			position: relative;
+			display: inline-block;
+		}
+
+		.dropdown-content {
+			display: none;
+			position: absolute;
+			background-color: #f9f9f9;
+
+			box-shadow: 0 8px 16px 0 rgba(10, 0, 0, 0.2);
+			z-index: 1;
+		}
+
+		.dropdown:hover .dropdown-content {
+			display: flex; /* Use flexbox to make them appear in the same row */
+			flex-direction: row; /* Arrange them horizontally */
+			top: -10px; /* Position below the dropdown button */
+			left: -100px; /* Align with the left edge of the dropdown button */
+		}
+	</style>
+
+	<script>
+		function updateCurrentDateTime() {
+var now = new Date()
+var year = now.getFullYear()
+var month = String(now.getMonth() + 1).padStart(2, '0')
+var day = String(now.getDate()).padStart(2, '0')
+var hour = String(now.getHours()).padStart(2, '0')
+var minute = String(now.getMinutes()).padStart(2, '0')
+var second = String(now.getSeconds()).padStart(2, '0')
+
+var currentDateTime = '🕐 ' + year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second
+
+document.getElementById('currentDateTime').textContent = currentDateTime
+}
+
+// Update the current date and time immediately and then update it every minute
+updateCurrentDateTime()
+setInterval(updateCurrentDateTime, 1000) // Update every 1 minute (60000 milliseconds)
+	</script>
+{% endblock %}

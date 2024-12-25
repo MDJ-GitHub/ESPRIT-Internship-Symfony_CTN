@@ -1,0 +1,247 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	CTN - G. Utilisateurs
+{% endblock %}
+
+{% block body %}
+	<nav class="navbar shadow-lg navbar-expand-lg navbar-dark bg-dark justify-content-between fixed-top">
+		<img src="{{ asset('img/logo.png') }}" alt="Logo" style="max-width: 200px;"/>
+
+		<a class="navbar-brand" href="#">Gestion des Utilisateurs</a>
+		<form class="form-inline">
+
+			<button class="btn btn-light my-2 my-sm-0" id="currentDateTime" type="button"></button>
+			-
+			<button class="btn btn-light my-2 my-sm-0"  type="button">⚓
+				{{ loginnavire }}</button>
+			-
+		<div class="dropdownx">
+												<button class="btn btn-light my-2 my-sm-0" type="button">🧑‍💼
+				{{ loginnom }}</button>
+			-
+											<div class="dropdown-contentx">
+												<a href="{{ path('app_logout') }}" class="btn btn-outline-danger my-2 my-sm-0 btn-sm" type="button">⛔ Déconnecter
+												</a>
+											</div>
+										</div>
+		</form>
+	</nav>
+
+	<div class="container-fluid">
+		<div class="row">
+			<nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark bg-opacity-75 sidebar">
+				<div class="position-sticky">
+					<ul class="nav nav-pills flex-column mb-auto">
+						<br>
+						<br>
+						<br>
+						<br>
+						<li class="nav-item">
+							<a href="{{ path('app_utilisageur') }}" class="nav-link bg-danger text-white" aria-current="page">
+								<svg class="bi me-2" width="0" height="16">
+									<use xlink:href="#home"></use>
+								</svg>🧑‍🧒‍🧒 Personnels
+							</a>
+						</li>
+
+					</ul>
+				</div>
+			</nav>
+
+			<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+				<br>
+
+				<br>
+				<div class="container mt-5">
+					<h2>Modifier un Utilisateur</h2>
+					<form action={{url('app_utilisageur_moding')}}>
+
+						<br>
+
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="Prénom">Prénom</label>
+										<input type="text" class="form-control" value="{{ initprenom }}" id="Prénom" name="prenom" required>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="Nom">Nom</label>
+										<input type="text" class="form-control" value="{{ initnom }}" id="Nom" name="nom" required>
+									</div>
+								</div>
+							</div>
+
+							<!-- Row 2: Textbox, Date, and Select -->
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="daten">Date de Naissance</label>
+										<input type="date" class="form-control" id="daten" value="{{ initdaten|date('Y-m-d') }}" name="daten">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group">
+										<label for="lieun">Lieu de Naissance</label>
+										<input type="text" class="form-control" id="lieun" value="{{ initlieun }}" name="lieun">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group">
+										<label for="sexe">Sexe</label>
+										<select class="form-control" id="sexe" name="sexe">
+											<option value="M" {% if initsexe == 'M' %} selected {% endif %}>Masculin</option>
+											<option value="F" {% if initsexe == 'F' %} selected {% endif %}>Féminine</option>
+										</select>
+									</div>
+								</div>
+							</div>
+
+							<!-- Row 3: Email and Phone Inputs -->
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="email">Email</label>
+										<input type="email" value="{{ initemail }}" class="form-control" id="email" name="email">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="tel">Téléphone</label>
+										<input type="tel" class="form-control" value="{{ inittel }}" id="tel" name="tel">
+									</div>
+								</div>
+							</div>
+
+							<!-- Row 4: Two Selects -->
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="navire">Navire</label>
+										<select class="form-control" id="navire" name="navire">
+											<option value="Ulysse" {% if initnavire == 'Ulysse' %} selected {% endif %}>Ulysse</option>
+											<option value="Salambo" {% if initnavire == 'Salambo' %} selected {% endif %}>Salambo</option>
+											<option value="Amilcar" {% if initnavire == 'Amilcar' %} selected {% endif %}>Amilcar</option>
+											<option value="Elyssa" {% if initnavire == 'Elyssa' %} selected {% endif %}>Elyssa</option>
+											<option value="Tanit" {% if initnavire == 'Tanit' %} selected {% endif %}>Tanit</option>
+											<option value="Carthage" {% if initnavire == 'Carthage' %} selected {% endif %}>Carthage</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="fonction">Fonction</label>
+										<select class="form-control" id="fonction" name="fonction">
+											<option value="Standard" {% if initfonction == 'Standard' %} selected {% endif %}>Standard</option>
+											<option value="Gestionnaire" {% if initfonction == 'Gestionnaire' %} selected {% endif %}>Gestionnaire</option>
+											<option value="Commandant" {% if initfonction == 'Commandant' %} selected {% endif %}>Commandant</option>
+											<option value="G. Utilisateur" {% if initfonction == 'G. Utilisateur' %} selected {% endif %}>G. Utilisateur</option>
+											<option value="Capitaine" {% if initfonction == 'Capitaine' %} selected {% endif %}>Capitaine</option>
+											<option value="Garçon" {% if initfonction == 'Garçon' %} selected {% endif %}>Garçon</option>
+											<option value="Mecanician" {% if initfonction == 'Mecanician' %} selected {% endif %}>Mecanician</option>
+											<option value="Medicain" {% if initfonction == 'Medicain' %} selected {% endif %}>Medicain</option>
+
+										</select>
+									</div>
+								</div>
+							</div>
+							<br>
+
+							<button type="submit" class="btn btn-danger">Modifier</button>
+
+						</form>
+					</div>
+				</main>
+			</div>
+		</div>
+	<style>
+		.table-container {
+			max-height: calc(100vh - 80px); /* Adjust the maximum height as needed */
+			overflow-y: auto; /* Add vertical scroll for the content */
+		}
+
+		.table thead {
+			position: sticky;
+			top: 0;
+			z-index: 1; /* Ensure the header is above the table content */
+		}
+
+		#sidebar {
+			min-height: 100vh; /* Set the sidebar's minimum height to 100% of the viewport height */
+			position: fixed;
+		}
+		body {
+			background-image: url({{ asset('img/background.png') }}); /* Replace with the actual path to your hiba image */
+			background-size: cover; /* This will make the image cover the entire background */
+			background-repeat: no-repeat; /* Prevent the image from repeating */
+		}
+		table tr td,
+		table tr th {
+			background-color: rgba(255, 255, 255, 0.6) !important;
+		}
+
+		.dropdown {
+			position: relative;
+			display: inline-block;
+		}
+
+		.dropdown-content {
+			display: none;
+			position: absolute;
+			background-color: #f9f9f9;
+			
+			box-shadow: 0 8px 16px 0 rgba(10, 0, 0, 0.2);
+			z-index: 1;
+		}
+
+		.dropdown:hover .dropdown-content {
+    display: flex; /* Use flexbox to make them appear in the same row */
+    flex-direction: row; /* Arrange them horizontally */
+    top: -10px; /* Position below the dropdown button */
+    left: -100px; /* Align with the left edge of the dropdown button */
+}
+	.dropdownx {
+		position: relative;
+		display: inline-block;
+	}
+
+	.dropdown-contentx {
+		display: none;
+		position: absolute;
+		background-color: #f9f9f9;
+
+		box-shadow: 0 8px 16px 0 rgba(10, 0, 0, 0.2);
+		z-index: 1;
+	}
+			.dropdownx:hover .dropdown-contentx {
+			display: flex; /* Use flexbox to make them appear in the same row */
+			flex-direction: column; /* Arrange them horizontally */
+			/* Position below the dropdown button */
+			/* Align with the left edge of the dropdown button */
+		}
+
+	</style>
+
+	<script>
+		function updateCurrentDateTime() {
+var now = new Date()
+var year = now.getFullYear()
+var month = String(now.getMonth() + 1).padStart(2, '0')
+var day = String(now.getDate()).padStart(2, '0')
+var hour = String(now.getHours()).padStart(2, '0')
+var minute = String(now.getMinutes()).padStart(2, '0')
+var second = String(now.getSeconds()).padStart(2, '0')
+
+var currentDateTime = '🕐 ' + year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second
+
+document.getElementById('currentDateTime').textContent = currentDateTime
+}
+
+// Update the current date and time immediately and then update it every minute
+updateCurrentDateTime()
+setInterval(updateCurrentDateTime, 1000) // Update every 1 minute (60000 milliseconds)
+	</script>
+{% endblock %}

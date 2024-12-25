@@ -1,0 +1,195 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	CTN - Gestionnaire
+{% endblock %}
+
+{% block body %}
+<nav class="navbar shadow-lg navbar-expand-lg navbar-dark bg-dark justify-content-between fixed-top">
+	<img src="{{ asset('img/logo.png') }}" alt="Logo" style="max-width: 200px;"/>
+
+	<a class="navbar-brand" href="#">Gestion des Mouvements</a>
+	<form class="form-inline">
+		<button class="btn btn-light my-2 my-sm-0" id="currentDateTime" type="button"></button>
+		-
+		<button class="btn btn-light my-2 my-sm-0" type="button">⚓
+			{{ loginnavire }}</button>
+		-
+		<div class="dropdownx">
+			<button class="btn btn-light my-2 my-sm-0" type="button">🧑‍💼
+				{{ loginnom }}</button>
+			-
+			<div class="dropdown-contentx">
+				<a href="{{ path('app_logout') }}" class="btn btn-outline-danger my-2 my-sm-0" type="button">⛔ Déconnecter
+				</a>
+			</div>
+		</div>
+	</form>
+</nav>
+
+<div class="container-fluid">
+	<div class="row">
+		<nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark bg-opacity-75 sidebar">
+			<div class="position-sticky">
+				<br>
+				<br>
+				<br>
+				<br>
+				<ul class="nav nav-pills flex-column mb-auto">
+
+					<li class="nav-item">
+						<a href="{{ path('app_gestionnaire') }}" class="nav-link text-white" aria-current="page">
+							<svg class="bi me-2" width="0" height="16">
+								<use xlink:href="#home"></use>
+							</svg>🧑‍🧒‍🧒 Personnels
+						</a>
+					</li>
+					<li>
+						<a href="{{ path('app_gestionnaire_mov') }}" class="nav-link text-white">
+							<svg class="bi me-2" width="0" height="16">
+								<use xlink:href="#speedometer2"></use>
+							</svg>⛵ Mouvements
+						</a>
+					</li>
+					<li>
+						<a href="{{ path('app_gestionnaire_evaa') }}" class="nav-link text-white">
+							<svg class="bi me-2" width="0" height="16">
+								<use xlink:href="#speedometer2"></use>
+							</svg>📝 Evaluations
+						</a>
+					</li>
+					<li>
+						<a href="{{ path('app_gestionnaire_sta') }}" class="nav-link bg-danger text-white">
+							<svg class="bi me-2" width="0" height="16">
+								<use xlink:href="#speedometer2"></use>
+							</svg>📊 Statistiques
+						</a>
+					</li>
+				</ul>
+
+			</div>
+		</nav>
+
+		<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+			<br>
+			<br>
+			<br>
+			<br>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+
+<script>
+var xValues = ["Italy", "France", "Spain", "USA", "Argentina"];
+var yValues = [55, 49, 44, 24, 15];
+var barColors = ["red", "green","blue","orange","brown"];
+
+new Chart("myChart", {
+  type: "bar",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+  options: {
+    legend: {display: false},
+    title: {
+      display: true,
+      text: "World Wine Production 2018"
+    }
+  }
+});
+</script>
+
+
+	
+
+		</main>
+	</div>
+</div>
+<style>
+
+	.table-container {
+		max-height: calc(100vh - 80px); /* Adjust the maximum height as needed */
+		overflow-y: auto; /* Add vertical scroll for the content */
+	}
+
+	.table thead {
+		position: sticky;
+		top: 0;
+		z-index: 1; /* Ensure the header is above the table content */
+	}
+
+	#sidebar {
+		min-height: 100vh; /* Set the sidebar's minimum height to 100% of the viewport height */
+		position: fixed;
+	}
+	body {
+		background-image: url({{ asset('img/background.png') }}); /* Replace with the actual path to your hiba image */
+		background-size: cover; /* This will make the image cover the entire background */
+		background-repeat: no-repeat; /* Prevent the image from repeating */
+	}
+	table tr td,
+	table tr th {
+		background-color: rgba(255, 255, 255, 0.6) !important;
+	}
+
+	.dropdown {
+		position: relative;
+		display: inline-block;
+	}
+
+	.dropdown-content {
+		display: none;
+		position: absolute;
+		background-color: #f9f9f9;
+
+		box-shadow: 0 8px 16px 0 rgba(10, 0, 0, 0.2);
+		z-index: 1;
+	}
+
+	.dropdown:hover .dropdown-content {
+		display: flex; /* Use flexbox to make them appear in the same row */
+		flex-direction: row; /* Arrange them horizontally */
+		top: -10px; /* Position below the dropdown button */
+		left: -110px; /* Align with the left edge of the dropdown button */
+	}
+	.dropdownx {
+		position: relative;
+		display: inline-block;
+	}
+
+	.dropdown-contentx {
+		display: none;
+		position: absolute;
+		background-color: #f9f9f9;
+
+		box-shadow: 0 8px 16px 0 rgba(10, 0, 0, 0.2);
+		z-index: 1;
+	}
+
+	.dropdownx:hover .dropdown-contentx {
+		display: flex; /* Use flexbox to make them appear in the same row */
+		flex-direction: column; /* Arrange them horizontally */
+		/* Position below the dropdown button */
+		/* Align with the left edge of the dropdown button */
+	}
+</style>
+<script>function updateCurrentDateTime() {
+																																															var now = new Date()
+																																															var year = now.getFullYear()
+																																															var month = String(now.getMonth() + 1).padStart(2, '0')
+																																															var day = String(now.getDate()).padStart(2, '0')
+																																															var hour = String(now.getHours()).padStart(2, '0')
+																																															var minute = String(now.getMinutes()).padStart(2, '0')
+																																															var second = String(now.getSeconds()).padStart(2, '0')
+																																															
+																																															var currentDateTime = '🕐 ' + year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second
+																																															
+																																															document.getElementById('currentDateTime').textContent = currentDateTime
+																																															}
+																																															
+																																															// Update the current date and time immediately and then update it every minute
+																																															updateCurrentDateTime()
+																																															setInterval(updateCurrentDateTime, 1000) // Update every 1 minute (60000 milliseconds)</script>{% endblock %}

@@ -1,0 +1,348 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	CTN - Gestionnaire
+{% endblock %}
+
+{% block body %}
+<nav class="navbar shadow-lg navbar-expand-lg navbar-dark bg-dark justify-content-between fixed-top">
+	<img src="{{ asset('img/logo.png') }}" alt="Logo" style="max-width: 200px;"/>
+	<a class="navbar-brand" href="#">Consultation de Profile</a>
+	<form class="form-inline">
+		<button class="btn btn-light my-2 my-sm-0" id="currentDateTime" type="button"></button>
+		-
+		<button class="btn btn-light my-2 my-sm-0" type="button">♟️
+			{{ loginfn }}</button>
+		-
+		<button class="btn btn-light my-2 my-sm-0" type="button">⚓
+			{{ loginnavire }}</button>
+		-
+	<div class="dropdownx">
+												<button class="btn btn-light my-2 my-sm-0" type="button">🧑‍💼
+				{{ loginnom }}</button>
+			-
+											<div class="dropdown-contentx">
+												<a href="{{ path('app_logout') }}" class="btn btn-outline-danger my-2 my-sm-0 btn-sm" type="button">⛔ Déconnecter
+												</a>
+											</div>
+										</div>
+	</form>
+</nav>
+
+<div class="container-fluid">
+	<div class="row">
+		<nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark bg-opacity-75 sidebar">
+			<div class="position-sticky">
+				<ul class="nav nav-pills flex-column mb-auto">
+					<br>
+					<br>
+					<li class="nav-item">
+						<div class="text-white container mt-5 bg-secondary text-center border border-5 border-secondary rounded">
+
+							<form action={{url('app_navigant_evaaf')}}>
+
+								<div class="row">
+									<div class="col">
+										<div class="form-group">
+											<label for="dropdown1">Port Dep.</label>
+											<select class="form-control form-control-sm" name="portdep" id="dropdown1">
+												<option>Tout</option>
+												<option {% if filpdep == 'Bizerte' %} selected {% endif %}>Bizerte</option>
+												<option {% if filpdep == 'Rades' %} selected {% endif %}>Rades</option>
+												<option {% if filpdep == 'Sousse' %} selected {% endif %}>Sousse</option>
+												<option {% if filpdep == 'Sfax' %} selected {% endif %}>Sfax</option>
+												<option {% if filpdep == 'Gabes' %} selected {% endif %}>Gabes</option>
+												<option {% if filpdep == 'Goulette' %} selected {% endif %}>Goulette</option>
+												<option {% if filpdep == 'Zarzis' %} selected {% endif %}>Zarzis</option>
+											</select>
+										</div>
+									</div>
+									<div class="col">
+										<div class="form-group">
+											<label for="dropdown2">Port Dea.</label>
+											<select class="form-control form-control-sm" name="portdes" id="dropdown2">
+												<option>Tout</option>
+												<option {% if filpdes == 'Bizerte' %} selected {% endif %}>Bizerte</option>
+												<option {% if filpdes == 'Rades' %} selected {% endif %}>Rades</option>
+												<option {% if filpdes == 'Sousse' %} selected {% endif %}>Sousse</option>
+												<option {% if filpdes == 'Sfax' %} selected {% endif %}>Sfax</option>
+												<option {% if filpdes == 'Gabes' %} selected {% endif %}>Gabes</option>
+												<option {% if filpdes == 'Goulette' %} selected {% endif %}>Goulette</option>
+												<option {% if filpdes == 'Zarzis' %} selected {% endif %}>Zarzis</option>
+											</select>
+										</div>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="dropdown3">Situation</label>
+									<select class="form-control form-control-sm" name="situation" id="dropdown3">
+										<option>Tout</option>
+										<option {% if fils == 'Titulaire' %} selected {% endif %}>Titulaire</option>
+										<option {% if fils == 'Contractuel' %} selected {% endif %}>Contractuel</option>
+										<option {% if fils == 'Occasionnel' %} selected {% endif %}>Occasionnel</option>
+
+									</select>
+								</div>
+
+
+								<div class="form-group">
+									<label for="slider">Note :
+									</label>&nbsp;<span id="sliderValue">Tout</span>
+									<input type="range" class="form-control form-control-sm" id="slider" name="note" min="-1" max="20" value="-1">
+
+								</div>
+
+
+								<div class="row">
+									<div class="col">
+										<div class="form-group">
+											<button type="submit" name="a" value="a" class="btn btn-sm btn-danger mt-3">Filtrer</button>
+										</div>
+									</div>
+									<div class="col">
+										<div class="form-group">
+
+
+											<button type="submit" name="a" value="b" class="btn btn-sm btn-danger mt-3">Effacer</button>
+
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</li>
+
+					<li class="">
+						<div class="text-white container mt-3 bg-secondary text-center border border-5 border-secondary rounded">
+							Générer
+							<form>
+
+								<a href="{{ path('app_navigant_epdf', { 'pdep': filpdep, 'pdes': filpdes, 's': fils, 'e': file }) }}" class="btn btn-danger btn-sm" type="button">PDF</a>
+
+
+								<a href="{{ path('app_navigant_ecsv', { 'pdep': filpdep, 'pdes': filpdes, 's': fils, 'e': file }) }}" class="btn btn-danger btn-sm" type="button">CSV</a>
+
+
+							</form>
+						</div>
+					</li>
+
+					<hr style="color:white;">
+					<li>
+						<a href="{{ path('app_navigant') }}" class="nav-link text-white">
+							<svg class="bi me-2" width="0" height="16">
+								<use xlink:href="#speedometer2"></use>
+							</svg>⛵ Mouvements
+						</a>
+					</li>
+					<li>
+						<a href="{{ path('app_navigant_evaa') }}" class="nav-link bg-danger text-white">
+							<svg class="bi me-2" width="0" height="16">
+								<use xlink:href="#speedometer2"></use>
+							</svg>📝 Evaluations
+						</a>
+					</li>
+				</ul>
+
+			</div>
+		</nav>
+
+		<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+			<br>
+			<br>
+			<br>
+			<div class="table-container">
+				<table class="table table-striped">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col">Mat</th>
+							<th scope="col">Mat Mv</th>
+							<th scope="col">Date Emb. Atte/Conf</th>
+							<th scope="col">Date Deb. Atte/Conf</th>
+							<th scope="col">Port Dep.</th>
+							<th scope="col">Port Des.</th>
+							<th scope="col">Situation</th>
+							<th class="bg-secondary" scope="col">Note</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for i in list %}
+							<form action={{url('app_gestionnaire_deb',{'mat':i.getId()} )}}>
+								<tr>
+									<th scope="row">{{ i.getId() }}</th>
+
+									<td>{{ i.getDateemb()|date('Y-m-d') }}
+										<hr style="margin: 5px 0;
+																																																																																																														        padding: 0;    ">
+										{% if i.getEtat() == 'Embarqué' %}
+											{{ i.getDateembc()|date('Y-m-d') }}
+
+										{% elseif i.getEtat() == 'Evalué' %}
+											{{ i.getDateembc()|date('Y-m-d') }}
+
+										{% elseif i.getEtat() == 'Debarqué' %}
+											{{ i.getDateembc()|date('Y-m-d') }}
+
+										{% elseif  i.getEtat() == 'Programmé' %}
+											<input type="date" class="form-control" value="{{ i.getDateembc()|date('Y-m-d') }}" name="dateemb" id="dateInput"></td>
+
+
+									{% elseif 'Annulé' in i.getEtat()  %}
+										<input type="date" class="form-control" value="{{ i.getDateembc()|date('Y-m-d') }}" name="dateemb" id="dateInput"></td>
+
+								{% elseif 'Absant' in i.getEtat()  %}
+									<input type="date" class="form-control" value="{{ i.getDateembc()|date('Y-m-d') }}" name="dateemb" id="dateInput"></td>
+
+								{% else %}
+							{% endif %}
+						</td>
+						<td>
+							{% if i.getDatedeb() is null %}
+								---
+							{% else %}
+
+								{{ i.getDatedeb()|date('Y-m-d') }}
+							{% endif %}
+							<hr style="margin: 5px 0;
+																																																																																        padding: 0;    ">
+							{% if i.getEtat() == 'Embarqué' %}
+
+								<input type="date" class="form-control" value="{{ i.getDatedebc()|date('Y-m-d') }}" name="datedeb" id="dateInput">
+
+
+							{% elseif i.getEtat() == 'Evalué' %}
+								{{ i.getDatedebc()|date('Y-m-d') }}
+
+							{% elseif i.getEtat() == 'Debarqué' %}
+								{{ i.getDatedebc()|date('Y-m-d') }}
+							{% elseif  i.getEtat() == 'Programmé' %}
+								---
+
+							{% elseif 'Annulé' in i.getEtat()  %}
+								---
+							{% elseif 'Absant' in i.getEtat()  %}
+								---
+								{% else %}
+
+							{% endif %}
+						</td>
+
+						<td>{{ i.getPortdep() }}</td>
+						<td>{{ i.getPortdes() }}</td>
+						<td>{{ i.matriculep.getFonction() }}</td>
+						<td>{{ i.matriculep.getNavire() }}</td>
+						<td>{{ i.getSituation() }}</td>
+
+
+						{% if i.getEvaluation().getNote() == 20 %}
+							<td class="bg-info text-white">{{i.getEvaluation().getNote()}}
+								/ 20</td>
+						{% elseif i.getEvaluation().getNote() < 20 and i.getEvaluation().getNote() >= 15 %}
+							<td class="bg-primary text-white">{{i.getEvaluation().getNote()}}
+								/ 20</td>
+						{% elseif i.getEvaluation().getNote() <= 14 and i.getEvaluation().getNote() >= 10 %}
+							<td class="bg-success text-white">{{i.getEvaluation().getNote()}}/ 20</td>
+						{% elseif i.getEvaluation().getNote() <= 9 and i.getEvaluation().getNote() >= 5 %}
+							<td class="bg-warning text-white">{{i.getEvaluation().getNote()}}
+								/ 20</td>
+						{% elseif i.getEvaluation().getNote() <= 4 %}
+							<td class="bg-danger text-white">{{i.getEvaluation().getNote()}}
+								/ 20</td>
+						{% else %}
+							<td class="bg-light text-white">{{i.getEvaluation().getNote()}}
+								/ 20</td>
+						{% endif %}
+					</tbody>
+				</tr>
+				<tr>
+					<td colspan="8">{{i.getEvaluation().getCommentaire()}}</td>
+
+				</tr>
+
+
+			</form>
+		{% endfor %}
+	</tbody>
+</table></div></main></div></div><style>.table-container {
+	max-height: calc(100vh - 80px); /* Adjust the maximum height as needed */
+	overflow-y: auto; /* Add vertical scroll for the content */
+}
+
+.table thead {
+	position: sticky;
+	top: 0;
+	z-index: 1; /* Ensure the header is above the table content */
+}
+
+#sidebar {
+	min-height: 100vh; /* Set the sidebar's minimum height to 100% of the viewport height */
+	position: fixed;
+}
+body {
+	background-image: url({{ asset('img/background.png') }}); /* Replace with the actual path to your hiba image */
+	background-size: cover; /* This will make the image cover the entire background */
+	background-repeat: no-repeat; /* Prevent the image from repeating */
+}
+table tr td,
+table tr th {
+	background-color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.dropdown {
+	position: relative;
+	display: inline-block;
+}
+
+.dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: #f9f9f9;
+
+	box-shadow: 0 8px 16px 0 rgba(10, 0, 0, 0.2);
+	z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+	display: flex; /* Use flexbox to make them appear in the same row */
+	flex-direction: row; /* Arrange them horizontally */
+	top: -10px; /* Position below the dropdown button */
+	left: -110px; /* Align with the left edge of the dropdown button */
+}
+
+	.dropdownx {
+		position: relative;
+		display: inline-block;
+	}
+
+	.dropdown-contentx {
+		display: none;
+		position: absolute;
+		background-color: #f9f9f9;
+
+		box-shadow: 0 8px 16px 0 rgba(10, 0, 0, 0.2);
+		z-index: 1;
+	}
+			.dropdownx:hover .dropdown-contentx {
+			display: flex; /* Use flexbox to make them appear in the same row */
+			flex-direction: column; /* Arrange them horizontally */
+			/* Position below the dropdown button */
+			/* Align with the left edge of the dropdown button */
+		}
+</style><script>function updateCurrentDateTime() {
+																												var now = new Date()
+																												var year = now.getFullYear()
+																												var month = String(now.getMonth() + 1).padStart(2, '0')
+																												var day = String(now.getDate()).padStart(2, '0')
+																												var hour = String(now.getHours()).padStart(2, '0')
+																												var minute = String(now.getMinutes()).padStart(2, '0')
+																												var second = String(now.getSeconds()).padStart(2, '0')
+																												
+																												var currentDateTime = '🕐 ' + year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second
+																												
+																												document.getElementById('currentDateTime').textContent = currentDateTime
+																												}
+																												
+																												// Update the current date and time immediately and then update it every minute
+																												updateCurrentDateTime()
+																												setInterval(updateCurrentDateTime, 1000) // Update every 1 minute (60000 milliseconds)</script>{% endblock %}

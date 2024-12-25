@@ -1,0 +1,145 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Main
+{% endblock %}
+
+{% block body %}
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
+    <img src="{{ asset('img/logo.png') }}" alt="Logo" style="max-width: 200px;" />
+
+    <a class="navbar-brand" href="#">Gestion des Navigations</a>
+
+    <form class="form-inline">
+      <button class="btn btn-outline-danger my-2 my-sm-0" type="button">Ajouter</button>
+      -
+      <button class="btn btn-light my-2 my-sm-0" id="currentDateTime" type="button"></button>
+      -
+    </form>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar">
+        <div class="position-sticky">
+          <ul class="nav nav-pills flex-column mb-auto">
+            <br />
+            <li class="nav-item">
+               <a href="{{ path('app_main') }}" class="nav-link text-white" aria-current="page">
+                <svg class="bi me-2" width="0" height="16">
+                  <use xlink:href="#home"></use>
+                </svg>🧑‍🧒‍🧒 Personnels
+              </a>
+            </li>
+            <li>
+                <a href="{{ path('app_list_nav') }}" class="nav-link bg-danger text-white">
+                <svg class="bi me-2" width="0" height="16">
+                  <use xlink:href="#speedometer2"></use>
+                </svg>⛵ Navigations
+              </a>
+            </li>
+          </ul>
+          
+        </div>
+      </nav>
+
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <table class="table table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Mat</th>
+              <th scope="col">Navigant</th>
+              <th scope="col">Date Emb.</th>
+              <th scope="col">Date Deb.</th>
+              <th scope="col">Port Dep.</th>
+              <th scope="col">Port Des.</th>
+              <th scope="col">Fn</th>
+              <th scope="col">Situation</th>
+              <th scope="col">Ac</th>
+              <th scope="col"></th>
+              <th class="bg-secondary" scope="col">Etat</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Mohamed Dhia Jebali</td>
+              <td>2023-08-12 08:30</td>
+              <td>2023-08-012 13:00</td>
+              <td>Tunis</td>
+              <td>Sfax</td>
+              <td>Capitane</td>
+              <td>Titulaire</td>
+              <td>✏️</td>
+              <td>🗑️</td>
+              <td class="bg-primary text-white">Embarqué</td>
+            </tr>
+            {% for i in list %}
+              <tr>
+                <th scope="row">{{ i.getId() }}</th>
+                <td>{{ i.matriculep.getPrenom() }} {{ i.matriculep.getNom() }}</td>
+
+                <td>{{ i.getDateemb()|date('Y-m-d h:m') }}</td>
+                <td>{{ i.getDatedeb()|date('Y-m-d h:m') }}</td>
+                <td>{{ i.getPortdep() }}</td>
+                <td>{{ i.getPortdes() }}</td>
+                <td>{{ i.getFonction() }}</td>
+                <td>{{ i.getSituation() }}</td>
+                <td>✏️</td>
+                <td>🗑️</td>
+
+                {% set currentDateTime = 'now'|date('Y-m-d H:i:s') %}
+
+                {% if currentDateTime >= i.dateemb.format('Y-m-d H:i:s') and currentDateTime <= i.datedeb.format('Y-m-d H:i:s') %}
+                  <td class="bg-primary text-white">Embarqué</td>
+                {% elseif currentDateTime > i.datedeb.format('Y-m-d H:i:s') %}
+                  <td class="bg-succes text-white">Completé</td>
+                         {% elseif  i.getInter != '' %}
+                  <td class="bg-danger text-white">Annulé (i.getInter)</td>
+                {% else %}
+                  <td class="bg-warning">Programmé</td>
+                {% endif %}
+              </tr>
+            {% endfor %}
+
+          
+          </tbody>
+        </table>
+      </main>
+    </div>
+  </div>
+  <style>
+    #sidebar {
+      min-height: 100vh; /* Set the sidebar's minimum height to 100% of the viewport height */
+    }
+    body {
+      background-image: url('img/background.png'); /* Replace with the actual path to your hiba image */
+      background-size: cover; /* This will make the image cover the entire background */
+      background-repeat: no-repeat; /* Prevent the image from repeating */
+    }
+    table tr td,
+    table tr th {
+      background-color: rgba(255, 255, 255, 0.6) !important;
+    }
+  </style>
+
+  <script>
+    function updateCurrentDateTime() {
+      var now = new Date()
+      var year = now.getFullYear()
+      var month = String(now.getMonth() + 1).padStart(2, '0')
+      var day = String(now.getDate()).padStart(2, '0')
+      var hour = String(now.getHours()).padStart(2, '0')
+      var minute = String(now.getMinutes()).padStart(2, '0')
+      var second = String(now.getSeconds()).padStart(2, '0')
+    
+      var currentDateTime = '🕐 ' + year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second
+    
+      document.getElementById('currentDateTime').textContent = currentDateTime
+    }
+    
+    // Update the current date and time immediately and then update it every minute
+    updateCurrentDateTime()
+    setInterval(updateCurrentDateTime, 1000) // Update every 1 minute (60000 milliseconds)
+  </script>
+{% endblock %}
